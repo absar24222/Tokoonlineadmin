@@ -1,9 +1,10 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); // Tambahan untuk pathing static folder
 require('dotenv').config();
-const sequelize = require('./Backend/config/db'); // Ditambah ./Backend/
+const sequelize = require('./Backend/config/db');
 
-// Import Rute (Ditambah ./Backend/ juga)
+// Import Rute
 const authRoutes = require('./Backend/routes/authRoutes');
 const productRoutes = require('./Backend/routes/productRoutes');
 const orderRoutes = require('./Backend/routes/orderRoutes');
@@ -13,6 +14,9 @@ const app = express();
 // Middleware Global
 app.use(cors());
 app.use(express.json());
+
+// Mengizinkan folder 'uploads' diakses publik secara statis lewat URL
+app.use('/uploads', express.static(path.join(__dirname, 'Backend', 'uploads')));
 
 // Mapping Rute Utama
 app.use('/api/auth', authRoutes);
